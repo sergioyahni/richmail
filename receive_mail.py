@@ -5,6 +5,10 @@ import os
 import text_decoder
 from datetime import datetime
 
+# TODO 1 ask for path to save attachments
+# TODO 2 create default folder to save attachments
+# TODO 2 return data to variables
+
 def clean(text):
     # clean text for creating a folder
     return "".join(c if c.isalnum() else "_" for c in text)
@@ -13,7 +17,8 @@ def clean(text):
 class GetMail:
     """Use this class to receive emails
     """
-    def __init__(self,email="maagarmeda2020@gmail.com", password="tveumgbczwsjomok", imap_server="imap.gmail.com"):
+
+    def __init__(self, email="maagarmeda2020@gmail.com", password="tveumgbczwsjomok", imap_server="imap.gmail.com"):
         self.email = email
         self.password = password
         self.imap_server = imap_server
@@ -100,8 +105,7 @@ class GetMail:
                             # if it's HTML, create a new HTML file and open it in browser
                             print(body)
                     print("=" * 10)
-# close the connection and logout
-# imap.close()
-# imap.logout()
+
+
 get_mail = GetMail()
 get_mail.get_mail(3)
