@@ -3,12 +3,7 @@ import email
 from email.header import decode_header
 import os
 import text_decoder
-
-# account credentials
-# username = "maagarmeda2020@gmail.com"
-# password = "tveumgbczwsjomok"
-# imap_server = "imap.gmail.com"
-
+from datetime import datetime
 
 def clean(text):
     # clean text for creating a folder
@@ -23,6 +18,7 @@ class GetMail:
         self.password = password
         self.imap_server = imap_server
         self.imap = imaplib.IMAP4_SSL(imap_server)
+        self.today = datetime.now().strftime("%Y%m%d")
 
     def get_mail(self, num_msg):
         self.imap.login(self.email, self.password)
@@ -78,6 +74,7 @@ class GetMail:
                                 filename = part.get_filename()
                                 if filename:
                                     folder_name = clean(subject)
+                                    folder_name = self.today if not folder_name else folder_name
                                     if not os.path.isdir(folder_name):
                                         # make a folder for this email (named after the subject)
                                         os.mkdir(folder_name)
