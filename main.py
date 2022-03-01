@@ -1,14 +1,14 @@
 from mail import SendEmail
 
 sender_mail = "maagarmeda2020@gmail.com"
-password = "tveumgbczwsjomok"
+password = "potkhpjwgvbxxkcy"
 
 email = SendEmail(sender_mail, password)
 
-email.simple(to="sergioyahni2@gmail.com",
-             subject="You Got Mail 01",
-             body="This is a test mail",
-             )
+# email.simple(to="sergioyahni2@gmail.com",
+#              subject="You Got Mail 01",
+#              body="This is a test mail",
+#              )
 
 """
 # sender_mail = "YOU@GMAIL.COM"
@@ -16,12 +16,7 @@ email.simple(to="sergioyahni2@gmail.com",
 #
 # email = SendEmail(sender_mail, password)
 #
-# email.send_email(to="RECIPIENT", # List
-#                  cc="CC", # List default=None
-#                  bcc="BCC", # List default=None
-#                  subject="SUBJECT", # str default=None
-#                  body="YOUR MESSAGE", # # plain text default=None
-#                  reach_body="YOUR HTML MESSAGE", # html default=None
-#                  filename="PATH/TO/FILE" default=None
-)
 """
+email.send_email(to=['sergioyahni@gmail.com'],
+                 cc=['sergioyahni2@gmail.com', 'sergioyahni@gmail.com'],
+                 body="I AM YOUR MESSAGE")

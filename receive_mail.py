@@ -1,7 +1,3 @@
-# https://www.systoolsgroup.com/imap/
-# https://www.thepythoncode.com/article/reading-emails-in-python
-
-
 import imaplib
 import email
 from email.header import decode_header

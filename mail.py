@@ -32,6 +32,7 @@ class SendEmail:
 )
 
     """
+
     def __init__(self, email, password, smtp_server="smtp.gmail.com"):
         self.smtp_server = smtp_server
         self.port = 587
@@ -52,25 +53,39 @@ class SendEmail:
                  )
         """
         self.message = f'subject:{subject}\n\n{body}'
+        if not isinstance(to, list):
+            raise TypeError("A list is expected.")
         self.to_email = ','.join(to)
         self._send()
 
     def send_email(self, **mail):
-        # Create a multipart message and set headers
+        """email.send_email(to="RECIPIENT", # List, required
+                   cc="CC", # List, optional default=None
+                   bcc="BCC", # List, optional default=None
+                   subject="SUBJECT", # str, optional default=None
+                   body="YOUR MESSAGE", # plain text, optional default=None
+                   reach_body="YOUR HTML MESSAGE", # html, optional default=None
+                   filename="PATH/TO/FILE" optional default=None)
+        """
         message = MIMEMultipart()
+        if not isinstance(mail['to'], list):
+            raise TypeError('"To" argument should be of list type')
         self.to_email = mail["to"]
         message["From"] = self.from_email
         message["To"] = ','.join(mail["to"])
         if "subject" in mail:
             message["Subject"] = mail["subject"]
         if "cc" in mail:
+            if not isinstance(mail['cc'], list):
+                raise TypeError('"cc" argument should be of list type')
             self.cc_mail = mail["cc"]
             message["CC"] = ','.join(mail["cc"])
 
         if "bcc" in mail:
+            if not isinstance(mail['bcc'], list):
+                raise TypeError('"bcc" argument should be of list type')
             self.bcc_mail = mail["bcc"]
             message["Bcc"] = ','.join(mail["bcc"])
-
 
         # Add body to email
         if "body" in mail:
