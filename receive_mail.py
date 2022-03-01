@@ -41,12 +41,19 @@ class GetMail:
                     subject, encoding = decode_header(msg["Subject"])[0]
                     if isinstance(subject, bytes):
                         # if it's a bytes, decode to str
-                        subject = subject.decode(encoding) if encoding else subject
+                        try:
+                            subject = subject.decode(encoding) if encoding else subject
+                        except LookupError as err:
+                            subject = err
 
                     # decode email sender
                     From, encoding = decode_header(msg.get("From"))[0]
                     if isinstance(From, bytes):
-                        From = From.decode(encoding) if encoding else From
+                        try:
+                            From = From.decode(encoding) if encoding else From
+                        except LookupError as err:
+                            From = err
+
                         print("Subject:", subject)
                         print("From:", From)
 
