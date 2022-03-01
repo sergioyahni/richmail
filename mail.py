@@ -16,6 +16,12 @@ class SendEmail:
     Please consult with your email provider before you use this class.
 
     email = SendEmail(your_address@email.com, your_password)
+
+    email.simple(to=RECIPIENT # list, required
+                 subject=SUBJECT # str, optional
+                 body=MESSAGE, # str, optional
+                 )
+
     email.send_email(to="RECIPIENT", # List, required
                    cc="CC", # List, optional default=None
                    bcc="BCC", # List, optional default=None
@@ -38,7 +44,7 @@ class SendEmail:
         self.bcc_mail = list()
         self.message = ''
 
-    def simple(self, to_email, subject=None, body=None):
+    def simple(self, to, subject=None, body=None):
         """Use this method to send plain text mails. requires at least one recipient email:
         email.simple(to=RECIPIENT # list, required
                  subject=SUBJECT # str, optional
@@ -46,7 +52,7 @@ class SendEmail:
                  )
         """
         self.message = f'subject:{subject}\n\n{body}'
-        self.to_email = ','.join(to_email)
+        self.to_email = ','.join(to)
         self._send()
 
     def send_email(self, **mail):
@@ -98,16 +104,12 @@ class SendEmail:
         self._send()
 
     def _send(self):
-        try:
+        if self.cc_mail or self.bcc_mail:
             self.to_email = self.to_email + self.cc_mail + self.bcc_mail
-            server = smtplib.SMTP(self.smtp_server, self.port)
-            server.ehlo()  # Can be omitted
-            server.starttls(context=self.context)  # Secure the connection
-            server.ehlo()  # Can be omitted
-            server.login(self.from_email, self.password)
-            server.sendmail(self.from_email, self.to_email, self.message)
-        except Exception as e:
-            # Print any error messages to stdout
-            print(f'ERROR: {e}')
-        finally:
-            server.quit()
+        server = smtplib.SMTP(self.smtp_server, self.port)
+        server.ehlo()  # Can be omitted
+        server.starttls(context=self.context)  # Secure the connection
+        server.ehlo()  # Can be omitted
+        server.login(self.from_email, self.password)
+        server.sendmail(self.from_email, self.to_email, self.message)
+        server.quit()
