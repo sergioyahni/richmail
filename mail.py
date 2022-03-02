@@ -29,7 +29,7 @@ class User:
         self.user_email = mail
         self.password = password
         self.smtp_server = smtp_server
-        self.imap = imaplib.IMAP4_SSL(imap_server)
+        self.imap_server = imap_server
 
 
 class Send(User):
@@ -131,6 +131,8 @@ class Send(User):
         self._send()
 
     def _send(self):
+        if not self.smtp_server:
+            raise Exception ("SMTP server was not defined")
         if self.cc_mail or self.bcc_mail:
             self.to_email = self.to_email + self.cc_mail + self.bcc_mail
         server = smtplib.SMTP(self.smtp_server, self.port)
@@ -144,10 +146,8 @@ class Send(User):
 
 class Receive(User):
     """Use this class to receive emails
-    Receive(email="YourEmail@email.com", # str required
-            password="YourPassword", # str required
-            imap_server="Your.Imap.Server" # # str required)
-    my_mail.get_mail(num_msg=number of messages to fetch, #int required
+    receive = Receive(mail, password, imap_server=None)
+    receive.get_mail(num_msg=number of messages to fetch, #int required
                     save_to="path/to/save/attachements # str optional"
                     )
     """
@@ -156,13 +156,17 @@ class Receive(User):
     received_emails = list()
 
     def get_mail(self, num_msg, save_to=None):
-        self.imap.login(self.user_email, self.password)
-        status, messages = self.imap.select("INBOX")
+        print(self.smtp_server)
+        imap = imaplib.IMAP4_SSL(self.imap_server)
+        if not self.imap_server:
+            raise Exception("IMAP sever was not defined")
+        imap.login(self.user_email, self.password)
+        status, messages = imap.select("INBOX")
         N = num_msg
         messages = int(messages[0])
 
         for i in range(messages, messages - N, -1):
-            res, msg = self.imap.fetch(str(i), "(RFC822)")
+            res, msg = imap.fetch(str(i), "(RFC822)")
             for response in msg:
                 single = dict()
                 if isinstance(response, tuple):

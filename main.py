@@ -1,22 +1,19 @@
-from send_mail import SendEmail
+from mail import Send, Receive
 
 sender_mail = "maagarmeda2020@gmail.com"
 password = "potkhpjwgvbxxkcy"
-
-email = SendEmail(sender_mail, password)
+smtp_server="smtp.gmail.com"
+server = "imap.gmail.com"
+email = Receive(sender_mail, password, server)
+e = email.get_mail(4, "C:\\Users\\SergioY\\Documents\\scripts\\zz-myemails")
+print(e)
 
 # email.simple(to="sergioyahni2@gmail.com",
 #              subject="You Got Mail 01",
 #              body="This is a test mail",
 #              )
 
-"""
-# sender_mail = "YOU@GMAIL.COM"
-# password = "YOUR_PASSWORD"
-#
-# email = SendEmail(sender_mail, password)
-#
-"""
-email.send_email(to=['sergioyahni@gmail.com'],
-                 cc=['sergioyahni2@gmail.com', 'sergioyahni@gmail.com'],
-                 body="I AM YOUR MESSAGE")
+# email.send_email(to=['sergioyahni@gmail.com'],
+#                  cc=['sergioyahni2@gmail.com', 'sergioyahni@gmail.com'],
+#                  subject="You Got Mail",
+#                  body="I AM YOUR MESSAGE 2")
