@@ -114,7 +114,7 @@ class GetMail:
                             single['body'] = body
                 if single:
                     self.received_emails.append(single)
-        return self.received_emails
+            return self.received_emails
 
 
 mail = GetMail()
