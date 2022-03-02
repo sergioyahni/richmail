@@ -17,6 +17,12 @@ def clean(text):
 
 class GetMail:
     """Use this class to receive emails
+    my_mail = GetMail(email="YourEmail@email.com", # str required
+                      password="YourPassword", # str required
+                      imap_server="Your.Imap.Server" # # str required)
+    my_mail.get_mail(num_msg=number of messages to fetch, #int required
+                    save_to="path/to/save/attachements # str optional"
+                    )
     """
 
     def __init__(self, email="maagarmeda2020@gmail.com", password="tveumgbczwsjomok", imap_server="imap.gmail.com"):

@@ -4,24 +4,9 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import imaplib
-import email
-from email.header import decode_header
-import os
-import pathlib
-import text_decoder
-from datetime import datetime
 
 
-class User:
-    def __init__(self, email, password, smtp_server=None, imap_server=None):
-        self.from_email = email
-        self.password = password
-        self.smtp_server = smtp_server
-        self.imap = imaplib.IMAP4_SSL(imap_server)
-
-
-class Send:
+class SendEmail:
     """This class control sending emails. You can send plain and formatted text emails. Emails may include attachments.
     Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
     and privacy protection issues.

@@ -1,4 +1,4 @@
-from mail import SendEmail
+from send_mail import SendEmail
 
 sender_mail = "maagarmeda2020@gmail.com"
 password = "potkhpjwgvbxxkcy"
