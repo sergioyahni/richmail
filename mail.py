@@ -17,7 +17,7 @@ class User:
     """This class control the user and is inherited by the Send() and Receive() classes.
     Initialize:
 
-    User(email="string", password="string", smtp_server=None, imap_server=None)
+    User(email="string", password="string", smtp_server=None, imap_server=imap_server)
 
     Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
     and privacy protection issues.
@@ -156,10 +156,10 @@ class Receive(User):
     received_emails = list()
 
     def get_mail(self, num_msg, save_to=None):
-        print(self.smtp_server)
-        imap = imaplib.IMAP4_SSL(self.imap_server)
+        # imap_server = self.imap_server
         if not self.imap_server:
             raise Exception("IMAP sever was not defined")
+        imap = imaplib.IMAP4_SSL(self.imap_server)
         imap.login(self.user_email, self.password)
         status, messages = imap.select("INBOX")
         N = num_msg
@@ -240,4 +240,4 @@ class Receive(User):
                             single['body'] = body
                 if single:
                     self.received_emails.append(single)
-            return self.received_emails
+        return self.received_emails
