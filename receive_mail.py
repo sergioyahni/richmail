@@ -7,10 +7,9 @@ import text_decoder
 from datetime import datetime
 
 
-# TODO 1 ask for path to save attachments
-# TODO 2 create default folder to save attachments
-# TODO 3 return data to variables
-# TODO 4 clean and simplify code
+# TODO Check if needed to create default folder to save attachments
+# TODO return data to variables
+# TODO clean and simplify code
 
 def clean(text):
     # clean text for creating a folder
@@ -24,9 +23,10 @@ class GetMail:
     def __init__(self, email="maagarmeda2020@gmail.com", password="tveumgbczwsjomok", imap_server="imap.gmail.com"):
         self.email = email
         self.password = password
-        self.imap_server = imap_server
+        # self.imap_server = imap_server
         self.imap = imaplib.IMAP4_SSL(imap_server)
-        self.today = datetime.now().strftime("%Y%m%d")
+        self.today = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.received_emails = list()
 
     def get_mail(self, num_msg, save_to=None):
         self.imap.login(self.email, self.password)
@@ -37,6 +37,7 @@ class GetMail:
         for i in range(messages, messages - N, -1):
             res, msg = self.imap.fetch(str(i), "(RFC822)")
             for response in msg:
+                single = dict()
                 if isinstance(response, tuple):
                     # parse a bytes email into a message object
                     msg = email.message_from_bytes(response[1])
@@ -58,8 +59,8 @@ class GetMail:
                         except LookupError as err:
                             From = err
 
-                        print("Subject:", subject)
-                        print("From:", From)
+                        single['subject'] = subject
+                        single['from'] = From
 
                     # if the email message is multipart
                     if msg.is_multipart():
@@ -75,8 +76,7 @@ class GetMail:
                                 body = ""
 
                             if content_type == "text/plain" and "attachment" not in content_disposition:
-                                # print text/plain emails and skip attachments
-                                print(body)
+                                single['body'] = body
                             elif "attachment" in content_disposition:
                                 # download attachment
                                 filename = part.get_filename()
@@ -89,7 +89,7 @@ class GetMail:
                                         os.mkdir(folder_name)
                                     filepath = os.path.join(folder_name, filename)
                                     # download attachment and save it
-                                    print(filepath)
+                                    single['attachment'] = filepath
                                     try:
                                         open(filepath, "wb").write(part.get_payload(decode=True))
                                     except OSError:
@@ -101,15 +101,10 @@ class GetMail:
                         content_type = msg.get_content_type()
                         # get the email body
                         body = msg.get_payload(decode=True).decode()
-                        print(f'received Messages{body}')
                         if content_type == "text/plain":
-                            # print only text email parts
-                            print(body)
+                            single['body'] = body
                         if content_type == "text/html":
-                            # if it's HTML, create a new HTML file and open it in browser
-                            print(body)
-                    print("=" * 10)
-
-
-get_mail = GetMail()
-get_mail.get_mail(3, "C:\\Users\\SergioY\\Documents\\scripts\\zz-myemails")
+                            single['body'] = body
+                if single:
+                    self.received_emails.append(single)
+        return self.received_emails
