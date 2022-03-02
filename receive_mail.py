@@ -2,12 +2,15 @@ import imaplib
 import email
 from email.header import decode_header
 import os
+import pathlib
 import text_decoder
 from datetime import datetime
 
+
 # TODO 1 ask for path to save attachments
 # TODO 2 create default folder to save attachments
-# TODO 2 return data to variables
+# TODO 3 return data to variables
+# TODO 4 clean and simplify code
 
 def clean(text):
     # clean text for creating a folder
@@ -25,7 +28,7 @@ class GetMail:
         self.imap = imaplib.IMAP4_SSL(imap_server)
         self.today = datetime.now().strftime("%Y%m%d")
 
-    def get_mail(self, num_msg):
+    def get_mail(self, num_msg, save_to=None):
         self.imap.login(self.email, self.password)
         status, messages = self.imap.select("INBOX")
         N = num_msg
@@ -80,6 +83,7 @@ class GetMail:
                                 if filename:
                                     folder_name = clean(subject)
                                     folder_name = self.today if not folder_name else folder_name
+                                    folder_name = folder_name if not save_to else f'{save_to}/{folder_name}'
                                     if not os.path.isdir(folder_name):
                                         # make a folder for this email (named after the subject)
                                         os.mkdir(folder_name)
@@ -108,4 +112,4 @@ class GetMail:
 
 
 get_mail = GetMail()
-get_mail.get_mail(3)
+get_mail.get_mail(3, "C:\\Users\\SergioY\\Documents\\scripts\\zz-myemails")
