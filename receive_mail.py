@@ -8,7 +8,6 @@ from datetime import datetime
 
 
 # TODO Check if needed to create default folder to save attachments
-# TODO return data to variables
 # TODO clean and simplify code
 
 def clean(text):
@@ -72,7 +71,9 @@ class GetMail:
                             try:
                                 # get the email body
                                 body = part.get_payload(decode=True).decode()
-                            except:
+                            except AttributeError:
+                                body = ""
+                            except UnicodeDecodeError:
                                 body = ""
 
                             if content_type == "text/plain" and "attachment" not in content_disposition:
@@ -108,3 +109,7 @@ class GetMail:
                 if single:
                     self.received_emails.append(single)
         return self.received_emails
+
+
+mail = GetMail()
+mail.get_mail(10, "C:\\Users\\SergioY\\Documents\\scripts\\zz-myemails")
