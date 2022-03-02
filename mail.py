@@ -10,12 +10,23 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import text_decoder
+from text_functions import clean, decoding
 
 
 class User:
-    def __init__(self, email, password, smtp_server=None, imap_server=None):
-        self.from_email = email
+    """This class control the user and is inherited by the Send() and Receive() classes.
+    Initialize:
+
+    User(email="string", password="string", smtp_server=None, imap_server=None)
+
+    Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
+    and privacy protection issues.
+    For example: to use this app with a gmail account you should procure an App Password at:
+    Google Account > Security > Signing in to Google
+    Please consult with your email provider before you use this class.
+    """
+    def __init__(self, mail, password, smtp_server=None, imap_server=None):
+        self.user_email = mail
         self.password = password
         self.smtp_server = smtp_server
         self.imap = imaplib.IMAP4_SSL(imap_server)
@@ -23,27 +34,19 @@ class User:
 
 class Send(User):
     """This class control sending emails. You can send plain and formatted text emails. Emails may include attachments.
-    Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
-    and privacy protection issues.
-    For example: to use this app with a gmail account you should procure an App Password at:
-    Google Account > Security > Signing in to Google
+    Some email providers
 
-    Please consult with your email provider before you use this class.
+    send = Send(email="string", password="string", smtp_server=None)
 
-    email = SendEmail(your_address@email.com, your_password)
+    send.simple(to=[list], subject=None, body=None)
 
-    email.simple(to=RECIPIENT # list, required
-                 subject=SUBJECT # str, optional
-                 body=MESSAGE, # str, optional
-                 )
-
-    email.send_email(to="RECIPIENT", # List, required
-                   cc="CC", # List, optional default=None
-                   bcc="BCC", # List, optional default=None
-                   subject="SUBJECT", # str, optional default=None
-                   body="YOUR MESSAGE", # plain text, optional default=None
-                   reach_body="YOUR HTML MESSAGE", # html, optional default=None
-                   filename="PATH/TO/FILE" optional default=None
+    send.send_email(to=[List],
+                    cc="CC", # List, optional default=None
+                    bcc="BCC", # List, optional default=None
+                    subject="SUBJECT", # str, optional default=None
+                    body="YOUR MESSAGE", # plain text, optional default=None
+                    reach_body="YOUR HTML MESSAGE", # html, optional default=None
+                    filename="PATH/TO/FILE" optional default=None
 )
 
     """
@@ -80,7 +83,7 @@ class Send(User):
         if not isinstance(mail['to'], list):
             raise TypeError('"To" argument should be of list type')
         self.to_email = mail["to"]
-        message["From"] = self.from_email
+        message["From"] = self.user_email
         message["To"] = ','.join(mail["to"])
         if "subject" in mail:
             message["Subject"] = mail["subject"]
@@ -134,36 +137,26 @@ class Send(User):
         server.ehlo()  # Can be omitted
         server.starttls(context=self.context)  # Secure the connection
         server.ehlo()  # Can be omitted
-        server.login(self.from_email, self.password)
-        server.sendmail(self.from_email, self.to_email, self.message)
+        server.login(self.user_email, self.password)
+        server.sendmail(self.user_email, self.to_email, self.message)
         server.quit()
 
 
-def clean(text):
-    # clean text for creating a folder
-    return "".join(c if c.isalnum() else "_" for c in text)
-
-
-class Receive:
+class Receive(User):
     """Use this class to receive emails
-    my_mail = GetMail(email="YourEmail@email.com", # str required
-                      password="YourPassword", # str required
-                      imap_server="Your.Imap.Server" # # str required)
+    Receive(email="YourEmail@email.com", # str required
+            password="YourPassword", # str required
+            imap_server="Your.Imap.Server" # # str required)
     my_mail.get_mail(num_msg=number of messages to fetch, #int required
                     save_to="path/to/save/attachements # str optional"
                     )
     """
 
-    def __init__(self, email="maagarmeda2020@gmail.com", password="tveumgbczwsjomok", imap_server="imap.gmail.com"):
-        self.email = email
-        self.password = password
-        # self.imap_server = imap_server
-        self.imap = imaplib.IMAP4_SSL(imap_server)
-        self.today = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.received_emails = list()
+    today = datetime.now().strftime("%Y%m%d_%H%M%S")
+    received_emails = list()
 
     def get_mail(self, num_msg, save_to=None):
-        self.imap.login(self.email, self.password)
+        self.imap.login(self.user_email, self.password)
         status, messages = self.imap.select("INBOX")
         N = num_msg
         messages = int(messages[0])
@@ -229,7 +222,7 @@ class Receive:
                                     try:
                                         open(filepath, "wb").write(part.get_payload(decode=True))
                                     except OSError:
-                                        filename = text_decoder.decoding(filename)
+                                        filename = decoding(filename)
                                         filepath = os.path.join(folder_name, filename)
                                         open(filepath, "wb").write(part.get_payload(decode=True))
                     else:

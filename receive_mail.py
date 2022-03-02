@@ -3,7 +3,7 @@ import email
 from email.header import decode_header
 import os
 import pathlib
-import text_decoder
+import text_functions
 from datetime import datetime
 
 
@@ -100,7 +100,7 @@ class GetMail:
                                     try:
                                         open(filepath, "wb").write(part.get_payload(decode=True))
                                     except OSError:
-                                        filename = text_decoder.decoding(filename)
+                                        filename = text_functions.decoding(filename)
                                         filepath = os.path.join(folder_name, filename)
                                         open(filepath, "wb").write(part.get_payload(decode=True))
                     else:
