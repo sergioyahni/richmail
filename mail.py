@@ -34,7 +34,6 @@ class User:
 
 class Send(User):
     """This class control sending emails. You can send plain and formatted text emails. Emails may include attachments.
-    Some email providers
 
     send = Send(email="string", password="string", smtp_server=None)
 
@@ -103,8 +102,8 @@ class Send(User):
         if "body" in mail:
             message.attach(MIMEText(mail["body"], "plain"))
 
-        if "reach_body" in mail:
-            message.attach(MIMEText(mail["reach_body"], "html"))
+        if "rich_body" in mail:
+            message.attach(MIMEText(mail["rich_body"], "html"))
 
         if "filename" in mail:
             filename = mail["filename"]
@@ -145,11 +144,12 @@ class Send(User):
 
 
 class Receive(User):
-    """Use this class to receive emails
+    """This class controls receiving emails
+
     receive = Receive(mail, password, imap_server=None)
+
     receive.get_mail(num_msg=number of messages to fetch, #int required
-                    save_to="path/to/save/attachements # str optional"
-                    )
+                    save_to="path/to/save/attachment # str optional)
     """
 
     today = datetime.now().strftime("%Y%m%d_%H%M%S")
