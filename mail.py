@@ -57,11 +57,9 @@ class Send(User):
     message = ''
 
     def simple(self, to, subject=None, body=None):
-        """Use this method to send plain text mails. requires at least one recipient email:
-        email.simple(to=RECIPIENT # list, required
-                 subject=SUBJECT # str, optional
-                 body=MESSAGE, # str, optional
-                 )
+        """email.simple(to=RECIPIENT # list, required
+                        subject=SUBJECT # str, optional
+                        body=MESSAGE, # str, optional)
         """
         self.message = f'subject:{subject}\n\n{body}'
         if not isinstance(to, list):
