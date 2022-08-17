@@ -10,7 +10,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from text_functions import clean, decoding
+from mail.text_functions import clean, decoding
 
 
 class User:

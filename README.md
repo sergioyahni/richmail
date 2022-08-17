@@ -1,5 +1,5 @@
 # richmail
-**richmail 1.0.0.0** can be used to send and receive emails. 
+**richmail 1.2.0.0** can be used to send and receive emails. 
 
 Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
 and privacy protection issues.
@@ -23,7 +23,7 @@ Send a plain text email to one or more recipients
                     bcc="BCC", # List, optional default=None
                     subject="SUBJECT", # str, optional default=None
                     body="YOUR MESSAGE", # plain text, optional default=None
-                    reach_body="YOUR HTML MESSAGE", # html, optional default=None
+                    rich_body="YOUR HTML MESSAGE", # html, optional default=None
                     filename="PATH/TO/FILE" optional default=None)
 
 ## Class Receive()
