@@ -46,7 +46,9 @@ class Send(User):
                     body="YOUR MESSAGE", # plain text, optional default=None
                     reach_body="YOUR HTML MESSAGE", # html, optional default=None
                     filename="PATH/TO/FILE" optional default=None
-)
+    )
+
+    This class can be used with the Editor class, simple text or html.
 
     """
     port = 587

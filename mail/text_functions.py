@@ -1,5 +1,6 @@
 import base64
 
+
 def decoding(text):
     text_parts = text.split('?')
     base64_bytes = text_parts[3].encode(text_parts[1])

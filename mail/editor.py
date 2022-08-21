@@ -16,7 +16,7 @@ class Editor(Html):
     """
     This class returns formatted text:
 
-    Commands within a line of text:
+    Use the following commands within a line of text:
     Bold: [B]some text[*B]
     Italics: [I]some text[*I]
     Underline: [U]some text[*U]
@@ -43,12 +43,11 @@ class Editor(Html):
         [ROW]Some text | Some text | Some text
         [*TABLE]
 
-    Commands at the beginning of the line:
+    Use the following commands at the beginning of the line:
     Titles: [H1], [H2], [H3], [H4], [H4], [H5], [H6]
 
-    Commands at the beginning of the text:
+    Use the following commands at the beginning of the text:
     Change text direction: [LTR], [RTL]
-
     """
     text: str
     mail_body: str
