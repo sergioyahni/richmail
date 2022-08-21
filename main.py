@@ -20,14 +20,14 @@ my_text = """
     
      [UO]this is a very interesting line[*UO]
     """
+print(content.rich_text(my_text))
 
-text2 = """[RTL]
-ו"ר הרשות הפלסטינית אבו מאזן פרסם הבוקר (רביעי) הבהרה לאמירתו ולפיה "ישראל ביצעה 50 שואות בפלסטינים" 
-במסיבת העיתונאים המשותפת אמש עם קנצלר גרמניה אולף שולץ, ואמר כי "השואה היא הפשע הנתעב ביותר שהתרחש בהיסטוריה המודרנית 
-של האנושות. בתשובתו לא הייתה כוונה להתכחש לייחודיות של השואה, שבוצעה במאה הקודמת, והיא דבר שיש לגנות בחריפות". """
-
-print(content.rich_text(text2))
-send.send_email(to=["sergioyahni2@gmail.com"],
-                subject="שוב פעם בעברית...",  # str, optional default=None
-                rich_body=content.rich_text(text2),  # html, optional default=None
-                )
+# text2 = """[RTL]
+# ו"ר הרשות הפלסטינית אבו מאזן פרסם הבוקר (רביעי) הבהרה לאמירתו ולפיה "ישראל ביצעה 50 שואות בפלסטינים"
+# במסיבת העיתונאים המשותפת אמש עם קנצלר גרמניה אולף שולץ, ואמר כי "השואה היא הפשע הנתעב ביותר שהתרחש בהיסטוריה המודרנית
+# של האנושות. בתשובתו לא הייתה כוונה להתכחש לייחודיות של השואה, שבוצעה במאה הקודמת, והיא דבר שיש לגנות בחריפות". """
+#
+# send.send_email(to=["sergioyahni2@gmail.com"],
+#                 subject="This one is in English",  # str, optional default=None
+#                 rich_body=content.rich_text(my_text),  # html, optional default=None
+#                 )
