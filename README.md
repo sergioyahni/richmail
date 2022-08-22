@@ -1,4 +1,4 @@
-# richmail V 2.0
+# richmail 2.0
 **richmail** can be used to send and receive emails. includes an editor for rich html text. 
 
 Some email providers, such as gmail restrict sending emails from external apps for reasons related to security
@@ -59,6 +59,7 @@ This method returns html enriched text following the commands stated at the text
     Eu tincidunt magna elementum. Nam massa urna, egestas vitae"""
 
     rich_text = editor.rich_text(text)
+    
 **List of Commands**
 
 The following commands can be used when preparing the text for the editor: 
@@ -80,7 +81,8 @@ The following commands can be used when preparing the text for the editor:
     Small Caps: [SC]some text[*SC]
 
     Lists:
-     <ul>: [ULIST]
+     <ul>: 
+           [ULIST]
            [ITEM]Some Text
            [ITEM]Some Text
            [*ULIST]
