@@ -7,7 +7,7 @@ send = Send(mail=config.email, password=config.psw, smtp_server=config.smtp)
 content = Editor()
 
 
-send.send_email(to=["sergioy@tourism.gov.il"],
+send.send_email(to=["some_eamil_address@mail.com"],
                 subject="This report may interest you",  # str, optional default=None
                 rich_body=content.rich_text(text),  # html, optional default=None
                 )
